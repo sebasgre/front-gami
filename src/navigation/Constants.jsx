@@ -1,6 +1,7 @@
 //login links
 export const HOME_URL = "/";
 export const MENU_URL = "/Menu";
+export const REGISTER_URL = "/Register";
 //admin links
 export const USERLIST_URL = "/UserList";
 export const USERCREATE_URL = "/UserCreate";
