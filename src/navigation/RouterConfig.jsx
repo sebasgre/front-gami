@@ -14,6 +14,7 @@ import {
   DETALLESJUEGOMAIN_URL,
   JUEGOBUSCA_URL,
   MENU_URL,
+  REGISTER_URL,
 } from "./Constants";
 import UserList from "../pages/Usuarios/UsuarioListPage";
 import UserForm from "../pages/Usuarios/UsuarioFormPage";
@@ -27,6 +28,7 @@ import JuegoMainPage from "../pages/Main/JuegosMainPage";
 import DetallesJuegos from "../pages/Main/DetalleJuegoPage";
 import JuegoBuscaPage from "../pages/Main/BuscadorPage";
 import MenuPage from "../pages/MenuPage";
+import RegisterPage from "../RegisterPage";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +38,10 @@ export const router = createBrowserRouter([
   {
     path: MENU_URL,
     element: <MenuPage />,
+  },
+  {
+    path: REGISTER_URL,
+    element: <RegisterPage />,
   },
   {
     path: USERLIST_URL,

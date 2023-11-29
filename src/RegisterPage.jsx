@@ -9,16 +9,18 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { login } from "../services/MainService";
-import { MENU_URL, REGISTER_URL } from "../navigation/Constants";
 
-function HomePage() {
+import { HOME_URL } from "./navigation/Constants";
+import { register } from "./services/MainService";
+
+function RegisterPage() {
   localStorage.clear();
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const onUserFormSubmit = (e) => {
     const form = e.currentTarget;
     let isValid = form.checkValidity();
@@ -26,38 +28,31 @@ function HomePage() {
     e.stopPropagation();
     setValidated(true);
     if (isValid === true) {
-      doLogin();
+      doRegister();
     }
   };
-  const doLogin = () => {
+  const doRegister = () => {
     setShowAlertError(false);
-    login({
+    register({
       username,
       password,
-    })
-      .then((data) => {
-        if (data.access === undefined) {
-          setShowAlertError(true);
-          return;
-        }
-        let token = data.access;
-        localStorage.setItem("token", token);
-        localStorage.setItem("username", username);
-        navigate(MENU_URL);
-      })
-      .catch((error) => {
-        if (error.response === 401) {
-          setShowAlertError(true);
-        } else {
-          console.log(error);
-        }
-      });
+      email,
+    }).then((data) => {
+      if (data.access === undefined) {
+        setShowAlertError(true);
+        return;
+      }
+      let token = data.access;
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", username);
+      navigate(HOME_URL);
+    });
   };
   return (
     <Container>
       <Card className="mt-3">
         <Card.Body>
-          <Card.Title>Login</Card.Title>
+          <Card.Title>Registro</Card.Title>
           <div>
             {showAlertError && (
               <Alert variant="danger">
@@ -92,19 +87,24 @@ function HomePage() {
                   Ingresa un pasword válido
                 </Form.Control.Feedback>
               </FormGroup>
+              <FormGroup>
+                <label>Email</label>
+                <FormControl
+                  value={email}
+                  required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  type="email"
+                />
+                <Form.Control.Feedback type="invalid">
+                  Ingresa un email válido
+                </Form.Control.Feedback>
+              </FormGroup>
 
               <div className="mt-3">
-                <Button variant="primary" type="submit">
-                  Ingresar
-                </Button>
-                <Button
-                  className="ms-3"
-                  variant="secondary"
-                  onClick={() => {
-                    navigate(REGISTER_URL);
-                  }}
-                >
-                  Registrar
+                <Button variant="success" type="submit">
+                  Guardar
                 </Button>
               </div>
             </Form>
@@ -115,4 +115,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default RegisterPage;
